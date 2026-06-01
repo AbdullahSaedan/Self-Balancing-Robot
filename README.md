@@ -32,6 +32,14 @@ A two-wheel self-balancing robot built from scratch, using PID control and an IM
 
 *No derivative term — unstable oscillation with growing amplitude*
 
+<img src="docs/results/angle_sweep_5nm_limits.png" width="600">
+
+*Controller recovery limit — 5 N.m torque limit, all angles recovered but only up to 10° converge to zero*
+
+<img src="docs/results/angle_sweep_1nm_limits.png" width="600">
+
+*Controller recovery limit — 1 N.m torque limit, 45° fails, steady state error increases with angle*
+
 ## Setup
 ```
 pip install -r requirements.txt
