@@ -28,7 +28,7 @@ class PIDController:
         self._integral += error * self.dt
         I = self.Ki * self._integral
 
-        # Derivative on measurement (not error) — avoids derivative kick
+        # Derivative on measurement to avoid derivative kick
         if self._prev_measurement is None:
             D = 0.0
         else:

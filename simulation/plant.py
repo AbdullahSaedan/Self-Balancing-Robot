@@ -10,7 +10,7 @@ This is the linearised model valid for small angles (|theta| < ~15 deg).
 We use the nonlinear model for simulation and the linear model for control design.
 """
 
-# Physical parameters — tune these to match your eventual hardware
+# Physical parameters — tune these to match eventual hardware
 M = 0.5      # wheel/cart mass (kg)
 m = 1.0      # pendulum (body) mass (kg)
 L = 0.15     # distance from pivot to centre of mass (m)

@@ -16,7 +16,7 @@ t_eval  = np.arange(0, t_end, dt)
 # ─────────────────────────────────────────
 # Initial conditions
 # ─────────────────────────────────────────
-theta_0     = np.radians(5)   # 5 degree initial tilt
+theta_0     = np.radians(5)   # X degree initial tilt
 theta_dot_0 = 0.0             # starting from rest
 state_0     = [theta_0, theta_dot_0]
 
