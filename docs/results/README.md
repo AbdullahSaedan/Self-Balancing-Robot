@@ -1,4 +1,4 @@
-# Simulation Plots with Different Parameters
+# Simulation Results - Stage 0 
 
 ## Nominal - Kp = 50, Ki = 1, Kd = 5
 
@@ -26,3 +26,25 @@ With <b>Kd</b> set to 0 the braking force is removed. The system is expected to 
 <br>
 
 Since there is no derivative term there is nothing to dampen the overshoot, so the angle and torque oscillate continuously while accumulating error over time. The <b>P</b> term oscillates in phase with the tilt angle, continuously commanding corrective torque but never damping the motion due to the absence of the <b>D</b> term. This is why the <b>I</b> term grows steadily. The oscillation also grows over time, meaning on real hardware the robot would wobble with increasing amplitude until eventually becoming unstable. 
+
+## Controller Recovery Limit — Varying Initial Theta
+
+Two runs were performed with different motor torque limits to assess controller recovery range.
+
+### 5 N.m torque limit
+
+<img src="angle_sweep_5nm_limits.png" width="600">
+<br>
+
+With generous torque limits all angles up to 45° are classified as recovered, however only angles up to approximately 10° fully converge to zero. Larger angles settle with persistent steady state error that grows with initial angle.
+
+### 1 N.m torque limit
+
+<img src="angle_sweep_1nm_limits.png" width="600">
+<br>
+
+With more realistic torque limits the recovery range reduces further and steady state error is more pronounced. The 45° case fails entirely.
+
+### Conclusion
+
+Both results expose a fundamental limitation of the single-body simplified plant — without cart motion there is no physical mechanism to fully correct large angle errors. This will be addressed in Stage 1 with the full coupled cart-pole model.
