@@ -3,41 +3,29 @@ import matplotlib.pyplot as plt
 from scipy.integrate import solve_ivp
 
 from plant import pendulum_dynamics, M, m, L, g, I, b
-from controller import PIDController
 
 # ─────────────────────────────────────────
 # Simulation parameters
 # ─────────────────────────────────────────
-dt      = 0.01       # timestep (s) — matches controller sample rate
-t_end   = 5.0        # simulation duration (s)
-t_span  = (0, t_end)
-t_eval  = np.arange(0, t_end, dt)
+dt    = 0.01
+t_end = 5.0
+t_eval = np.arange(0, t_end, dt)
 
 # ─────────────────────────────────────────
 # Initial conditions
 # ─────────────────────────────────────────
-theta_0     = np.radians(5)   # X degree initial tilt
-theta_dot_0 = 0.0             # starting from rest
-x_0 = 0.0                     # cart starts at origin 
-x_dot_0 = 0.0                 # cart starts from rest
-state_0     = [theta_0, theta_dot_0, x_0, x_dot_0]
+theta_0     = np.radians(5)
+theta_dot_0 = 0.0
+x_0         = 0.0
+x_dot_0     = 0.0
 
 # ─────────────────────────────────────────
-# 2 Controllers - angle and position
+# State feedback gains from pole placement
+# Computed analytically using linearised_matrices()
+# Desired poles: [-3, -4, -5, -6]
 # ─────────────────────────────────────────
-angle_pid = PIDController(
-    Kp=50, Ki=0, Kd=15,
-    dt=dt,
-    output_limits=(-20.0, 20.0),
-    setpoint=0.0
-)
+K = np.array([35.7770091, 4.25784006, 2.26993285, 2.14053313])
 
-position_pid = PIDController(
-    Kp=1.0, Ki=0.1, Kd=0.5,
-    dt=dt,
-    output_limits=(-0.1, 0.1),
-    setpoint=0.0
-)
 # ─────────────────────────────────────────
 # Simulation loop
 # ─────────────────────────────────────────
@@ -45,11 +33,7 @@ log = {
     't':     [],
     'theta': [],
     'x':     [],
-    'x_dot': [],
-    'u':     [],
-    'P':     [],
-    'I':     [],
-    'D':     []
+    'u':     []
 }
 
 theta     = theta_0
@@ -58,18 +42,12 @@ x         = x_0
 x_dot     = x_dot_0
 
 for ti in t_eval:
+    # State feedback control law
+    state = np.array([theta, theta_dot, x, x_dot])
+    u = float(-(K @ state))
+    u = np.clip(u, -20.0, 20.0)
 
-    
-    # 1. Controller sees current angle and position, produces torque
-    target_angle, terms_pos = position_pid.compute(x)
-    angle_pid.setpoint = target_angle
-    u, terms_angle = angle_pid.compute(theta)
-
-    # For debugging: print current state and target
-    #print(f"t={ti:.2f} theta={np.degrees(theta):.2f} x={x:.2f} u={u:.2f} target={np.degrees(target_angle):.4f}")
-
-
-    # 2. Integrate plant one timestep forward
+    # Integrate plant one timestep forward
     sol = solve_ivp(
         pendulum_dynamics,
         [ti, ti + dt],
@@ -83,15 +61,10 @@ for ti in t_eval:
     x         = sol.y[2][-1]
     x_dot     = sol.y[3][-1]
 
-    # 3. Log everything
     log['t'].append(ti)
     log['theta'].append(np.degrees(theta))
     log['x'].append(x)
-    log['x_dot'].append(x_dot)
     log['u'].append(u)
-    log['P'].append(terms_angle['P'])
-    log['I'].append(terms_angle['I'])
-    log['D'].append(terms_angle['D'])
 
 # ─────────────────────────────────────────
 # Plots
@@ -101,14 +74,11 @@ fig, (ax1, ax2, ax3) = plt.subplots(3, 1, figsize=(10, 7))
 ax1.plot(log['t'], log['theta'], label='Tilt angle')
 ax1.axhline(0, color='r', linestyle='--', label='Setpoint')
 ax1.set_ylabel('Angle (degrees)')
-ax1.set_title('Closed-Loop PID Response')
+ax1.set_title('State Feedback Control — Pole Placement')
 ax1.legend()
 ax1.grid(True)
 
-ax2.plot(log['t'], log['P'], label='P term')
-ax2.plot(log['t'], log['I'], label='I term')
-ax2.plot(log['t'], log['D'], label='D term')
-ax2.plot(log['t'], log['u'], label='Total output', linewidth=2)
+ax2.plot(log['t'], log['u'], label='Control output', color='red')
 ax2.set_ylabel('Torque (N.m)')
 ax2.legend()
 ax2.grid(True)
@@ -120,5 +90,5 @@ ax3.legend()
 ax3.grid(True)
 
 plt.tight_layout()
-#plt.savefig('docs/results/stage1/cascaded_pid_before_tuning.png', dpi=150, bbox_inches='tight')
+plt.savefig('docs/results/stage1/state_feedback_pole_placement.png', dpi=150, bbox_inches='tight')
 plt.show()

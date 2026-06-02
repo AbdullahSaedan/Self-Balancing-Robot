@@ -47,4 +47,6 @@ With more realistic torque limits the recovery range reduces further and steady 
 
 ### Conclusion
 
-Both results expose a fundamental limitation of the single-body simplified plant — without cart motion there is no physical mechanism to fully correct large angle errors. This will be addressed in Stage 1 with the full coupled cart-pole model.
+Both results expose a fundamental limitation of the single-body simplified plant — without cart motion there is no physical mechanism to fully correct large angle errors. This is addressed in Stage 1 with the full coupled cart-pole model.
+
+[View Stage 1 results](../stage1/README.md)
