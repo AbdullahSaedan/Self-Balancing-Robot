@@ -5,7 +5,7 @@ A two-wheel self-balancing robot built from scratch, using PID control and an IM
 ## Project Stages
 
 -  **Stage 0** — Simulation of a single body pendulum: PID control, gain tuning, documented results
--  **Stage 1** — Full coupled simulation of a Cart-pole model: derive equations, position and angle control
+-  **Stage 1** — Full coupled simulation of a Cart-pole model: derive explicit equations of motion, position and angle control
 -  **Stage 2** — Hardware design: Component selection, mechanical design, CAD, motor characterisation
 -  **Stage 3** — Embedded implementation: Microcontroller, IMU integration, sensor filtering, PID on hardware
 -  **Stage 4** — Testing and validation: Comparing hardware performance against simulation, tuning on real system
@@ -20,25 +20,15 @@ A two-wheel self-balancing robot built from scratch, using PID control and an IM
 
 ## Results - Stage 0 
 
-<img src="docs/results/kp50_ki1_kd5_nominal.png" width="600">
+<img src="docs/results/stage0/kp50_ki1_kd5_nominal.png" width="600">
 
 *Nominal tuning — stable convergence within 0.5 seconds*
 
-<img src="docs/results/kp5_ki1_kd5_low_proportional.png" width="600">
-
-*Low Kp — persistent steady state error due to weak proportional correction*
-
-<img src="docs/results/kp50_ki1_kd0_no_derivative.png" width="600">
-
-*No derivative term — unstable oscillation with growing amplitude*
-
-<img src="docs/results/angle_sweep_5nm_limits.png" width="600">
+<img src="docs/results/stage0/angle_sweep_5nm_limits.png" width="600">
 
 *Controller recovery limit — 5 N.m torque limit, all angles recovered but only up to 10° converge to zero*
 
-<img src="docs/results/angle_sweep_1nm_limits.png" width="600">
-
-*Controller recovery limit — 1 N.m torque limit, 45° fails, steady state error increases with angle*
+[View full Stage 0 results](docs/results/stage0/README.md)
 
 ## Setup
 ```
