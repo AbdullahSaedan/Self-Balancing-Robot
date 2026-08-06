@@ -18,7 +18,7 @@ t_eval  = np.arange(0, t_end, dt)
 # ─────────────────────────────────────────
 theta_0     = np.radians(5)   # X degree initial tilt
 theta_dot_0 = 0.0             # starting from rest
-x_0 = 0.0                     # cart starts at origin 
+x_0 = 0.0                     # cart starts at origin
 x_dot_0 = 0.0                 # cart starts from rest
 state_0     = [theta_0, theta_dot_0, x_0, x_dot_0]
 
@@ -59,7 +59,7 @@ x_dot     = x_dot_0
 
 for ti in t_eval:
 
-    
+
     # 1. Controller sees current angle and position, produces torque
     target_angle, terms_pos = position_pid.compute(x)
     angle_pid.setpoint = target_angle
@@ -120,5 +120,5 @@ ax3.legend()
 ax3.grid(True)
 
 plt.tight_layout()
-#plt.savefig('docs/results/stage1/cascaded_pid_before_tuning.png', dpi=150, bbox_inches='tight')
+plt.savefig('docs/results/stage1/cascaded_pid_before_tuning.png', dpi=150, bbox_inches='tight')
 plt.show()

@@ -24,7 +24,7 @@ x_dot_0     = 0.0
 # Computed analytically using linearised_matrices()
 # Desired poles: [-3, -4, -5, -6]
 # ─────────────────────────────────────────
-K = np.array([35.7770091, 4.25784006, 2.26993285, 2.14053313])
+K = np.array([57.32868416, 8.14983868, -11.00917431, -10.83279559])
 
 # ─────────────────────────────────────────
 # Simulation loop
@@ -79,7 +79,7 @@ ax1.legend()
 ax1.grid(True)
 
 ax2.plot(log['t'], log['u'], label='Control output', color='red')
-ax2.set_ylabel('Torque (N.m)')
+ax2.set_ylabel('Control Force (N)')
 ax2.legend()
 ax2.grid(True)
 

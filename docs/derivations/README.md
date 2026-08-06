@@ -1,31 +1,31 @@
-*Note: mathematical notation in this file uses Unicode characters 
-which may not render clearly in all editors. Refer to the 
-derivation photos for the clearest representation of the equations.*
+**Note:** this model has a single actuator. The applied horizontal force F is the only control input; there is no independent pivot torque. The motor's effect on the pendulum enters through the coupling term -mlẍcosθ rather than as a direct torque about the pivot. In the simulation code this input is named u.
 
 # Equations of Motion
 
 Derived from first principles using the Lagrangian method.
 
 ## Cart equation (horizontal motion)
-(M+m)ẍ - mlθ̈cosθ + mlθ̇²sinθ = F(t)
+(M+m)ẍ - mLθ̈cosθ + mLθ̇²sinθ = F(t)
 
 ## Pendulum equation (rotational motion)
-l²θ̈ - ẍcosθ - gsinθ - bθ̇ + u = 0
+(I+mL²)θ̈ - mLẍcosθ - mgLsinθ + bθ̇ = 0
 
 Where:
+- I = moment of inertia of the pendulum about its centre of mass (kg.m²)
 - M = cart/wheel mass (kg)
 - m = pendulum body mass (kg)
-- l = distance from pivot to centre of mass (m)
+- L = distance from pivot to centre of mass (m)
 - θ = angle from vertical (rad)
 - F(t) = applied motor force (N)
 - b = viscous damping coefficient (N.m.s/rad)
-- u = control torque input (N.m)
 
 These are the full nonlinear coupled equations.
-The simulation uses a simplified single-body approximation as a 
-first step. Full coupled equations are implemented in Stage 1.
+Stage 0 used a simplified single-body approximation as a first step.
+These full coupled equations are implemented in Stage 1.
 
-Full working derivation available on request.
+<img src="cart_pole_equations.jpg" width="300"> <img src="cart_pole_explicit_form.png" width="300">
+
+*Note: these images show the original hand derivation, which contained sign errors in the damping and centrifugal terms and incorrectly treated the control input as an independent pivot torque. The errors were identified through a dimensional consistency check and a physical sanity check on the open loop pole location, and propagated into the simulation code before correction. The equations above supersede the images.*
 
 ## Explicit form for simulation
 
@@ -37,9 +37,9 @@ A shared denominator δ appears naturally from the algebra:
 
 This represents the coupled inertia of the system. It varies with θ because the mechanical coupling between the cart and the pendulum changes with the angle.
 
-ẍ = [(I+mL²)(F + mLθ̇²sinθ) + mLcosθ(mgLsinθ + bθ̇ − u)] / δ
+ẍ = [(I+mL²)(F − mLθ̇²sinθ) + mLcosθ(mgLsinθ − bθ̇)] / δ
 
-θ̈ = [mLcosθ(F + mLθ̇²sinθ) + (M+m)(mgLsinθ + bθ̇ − u)] / δ
+θ̈ = [mLcosθ(F − mLθ̇²sinθ) + (M+m)(mgLsinθ − bθ̇)] / δ
 
 Where:
 - δ = coupled inertia denominator

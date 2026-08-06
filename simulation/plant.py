@@ -22,23 +22,25 @@ b = 0.05     # viscous damping at pivot (N.m.s/rad)
 def pendulum_dynamics(t, state, u):
     theta, theta_dot, x, x_dot = state
     denominator = (M + m) * (I + m * L**2) - (m * L * np.cos(theta))**2
-    x_ddot = ((I + m * L**2) * (u + m * L * theta_dot**2 * np.sin(theta)) + m * L * np.cos(theta) * (m * g * L * np.sin(theta) + b * theta_dot - u)) / denominator
-    theta_ddot = (m * L * np.cos(theta) * (u + m * L * theta_dot**2 * np.sin(theta)) + (M + m) * (m * g * L * np.sin(theta) + b * theta_dot )) / denominator
+    x_ddot = ((I + m * L**2) * (u - m * L * theta_dot**2 * np.sin(theta))
+              + m * L * np.cos(theta) * (m * g * L * np.sin(theta) - b * theta_dot)) / denominator
+    theta_ddot = (m * L * np.cos(theta) * (u - m * L * theta_dot**2 * np.sin(theta))
+                  + (M + m) * (m * g * L * np.sin(theta) - b * theta_dot)) / denominator
     return [theta_dot, theta_ddot, x_dot, x_ddot]
 
 def linearised_matrices():
     denom = (M + m) * (I + m * L**2) - (m * L)**2
 
     A = np.array([
-        [0,                          1,  0,  0],
-        [m**2 * g * L**2 / denom,   -b * (M + m) / denom,  0,  0],
-        [0,                          0,  0,  1],
-        [-m * g * L * (M + m) / denom,  b * m * L / denom,  0,  0]
+        [0,                        1,                 0,  0],
+        [(M + m) * m * g * L / denom,  -(M + m) * b / denom,  0,  0],
+        [0,                        0,                 0,  1],
+        [m**2 * g * L**2 / denom,     -m * L * b / denom,     0,  0]
     ])
 
     B = np.array([
         [0],
-        [-m * L / denom],
+        [m * L / denom],
         [0],
         [(I + m * L**2) / denom]
     ])
