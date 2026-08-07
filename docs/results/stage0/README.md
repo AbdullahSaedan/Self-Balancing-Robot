@@ -1,4 +1,4 @@
-# Simulation Results - Stage 0 
+# Simulation Results - Stage 0
 
 ## Nominal - Kp = 50, Ki = 1, Kd = 5
 
@@ -25,7 +25,7 @@ With <b>Kd</b> set to 0 the braking force is removed. The system is expected to 
 <img src="kp50_ki1_kd0_no_derivative.png" width="600">
 <br>
 
-Since there is no derivative term there is nothing to dampen the overshoot, so the angle and torque oscillate continuously while accumulating error over time. The <b>P</b> term oscillates in phase with the tilt angle, continuously commanding corrective torque but never damping the motion due to the absence of the <b>D</b> term. This is why the <b>I</b> term grows steadily. The oscillation also grows over time, meaning on real hardware the robot would wobble with increasing amplitude until eventually becoming unstable. 
+Since there is no derivative term there is nothing to dampen the overshoot, so the angle and torque oscillate continuously while accumulating error over time. The <b>P</b> term oscillates in phase with the tilt angle, continuously commanding corrective torque but never damping the motion due to the absence of the <b>D</b> term. This is why the <b>I</b> term grows steadily. The oscillation also grows over time, meaning on real hardware the robot would wobble with increasing amplitude until eventually becoming unstable.
 
 ## Controller Recovery Limit — Varying Initial Theta
 
