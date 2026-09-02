@@ -1,5 +1,10 @@
 # Simulation Results - Stage 0
 
+**Note on parameters:** the plant parameters and torque limits used in Stage 0 are
+nominal values chosen before hardware selection. They do not represent the measured
+properties of the robot being built. Gain values, settling times and recovery ranges
+therefore describe the model rather than the physical system.
+
 ## Nominal - Kp = 50, Ki = 1, Kd = 5
 
 Starting from a 5 degree initial tilt, the controller should drive the angle back to zero and hold it there without clear overshoot or oscillation.
@@ -27,7 +32,7 @@ With <b>Kd</b> set to 0 the braking force is removed. The system is expected to 
 
 Since there is no derivative term there is nothing to dampen the overshoot, so the angle and torque oscillate continuously while accumulating error over time. The <b>P</b> term oscillates in phase with the tilt angle, continuously commanding corrective torque but never damping the motion due to the absence of the <b>D</b> term. This is why the <b>I</b> term grows steadily. The oscillation also grows over time, meaning on real hardware the robot would wobble with increasing amplitude until eventually becoming unstable.
 
-## Controller Recovery Limit — Varying Initial Theta
+## Controller Recovery Limit - Varying Initial Theta
 
 Two runs were performed with different motor torque limits to assess controller recovery range.
 
@@ -47,6 +52,6 @@ With more realistic torque limits the recovery range reduces further and steady 
 
 ### Conclusion
 
-Both results expose a fundamental limitation of the single-body simplified plant — without cart motion there is no physical mechanism to fully correct large angle errors. This is addressed in Stage 1 with the full coupled cart-pole model.
+Both results expose a fundamental limitation of the single-body simplified plant - without cart motion there is no physical mechanism to fully correct large angle errors. This is addressed in Stage 1 with the full coupled cart-pole model.
 
 [View Stage 1 results](../stage1/README.md)
