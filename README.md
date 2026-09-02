@@ -7,8 +7,8 @@ modelling and simulation to embedded control on hardware.
 
 -  **Stage 0** - Simulation of a single body pendulum: PID control, gain tuning, documented results
 - **Stage 1** - Full coupled cart-pole simulation: explicit equations of motion, cascaded PID, pole placement analysis, state feedback control
--  **Stage 2** - Hardware design: Component selection, mechanical design, CAD, motor characterisation
--  **Stage 3** - Embedded implementation: Microcontroller, IMU integration, sensor filtering, PID on hardware
+-  **Stage 2** - Hardware design: Component selection, mechanical design, CAD, measurment of physical parameters
+-  **Stage 3** - Embedded implementation: Microcontroller, IMU integration, sensor filtering, control on hardware
 -  **Stage 4** - Testing and validation: Comparing hardware performance against simulation, tuning on real system
 
 ## Skills Demonstrated
