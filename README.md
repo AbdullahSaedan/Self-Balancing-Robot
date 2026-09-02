@@ -26,9 +26,9 @@ modelling and simulation to embedded control on hardware.
 ```
 analysis/     Pole placement and recovery-limit analysis scripts
 simulation/   Plant model, controllers, and simulation entry points
-hardware/     CAD source and mechanical design
+hardware/     Chasis Design, CAD and build documentation
 embedded/     Arduino firmware
-docs/         Derivations and stage-by-stage results
+docs/         Derivations and simulation results
 ```
 
 ## Results - Stage 0
@@ -58,17 +58,16 @@ docs/         Derivations and stage-by-stage results
 
 ## Setup
 
-Requires Python 3.13.
+Requires Python 3.12 or later.
 
 ```bash
 git clone https://github.com/AbdullahSaedan/Self-Balancing-Robot.git
 cd Self-Balancing-Robot
-conda create -n pid python=3.13
-conda activate pid
 pip install -r requirements.txt
 ```
 
 Run a simulation:
+
 
 ```bash
 python simulation/simulate.py
