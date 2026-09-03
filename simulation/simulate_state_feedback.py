@@ -90,5 +90,5 @@ ax3.legend()
 ax3.grid(True)
 
 plt.tight_layout()
-plt.savefig('docs/results/stage1/state_feedback_pole_placement.png', dpi=150, bbox_inches='tight')
+#plt.savefig('docs/results/stage1/state_feedback_pole_placement.png', dpi=150, bbox_inches='tight')
 plt.show()
