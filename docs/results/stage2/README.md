@@ -1,5 +1,13 @@
 # Hardware Design - Stage 2
 
+## Build
+
+*Assembled robot — three-quarter, top and side views*
+
+<img src="Three-quarter-View.jpeg" height="250">
+<img src="Top-View.jpeg" height="250">
+<img src="Side-View.jpeg" height="250">
+
 ## Component Selection
 
 | Component | Qty | Key spec | Why chosen |
@@ -92,4 +100,10 @@ The IMU is mounted on the top platform, physically separated from the driver and
 
 
 ## Physical Parameters
-<!-- mass, CoM height, wheel radius, encoder CPR, deadband - measured at home -->
+
+| Parameter | Symbol | Assumed (Stage 1) | Measured | Method |
+|---|---|---|---|---|
+| Body mass | m | 0.50 kg | 0.497kg | Scale |
+| Wheel/base mass | M | 0.30 kg | 0.056kg | Scale |
+| Pivot to COM height | L | 0.10 m | 0.03 | moment balance |
+| Body inertia about COM | I | 0.006 kgm² | 0.00145 kgm² | Compound pendulum, 20 swings |
