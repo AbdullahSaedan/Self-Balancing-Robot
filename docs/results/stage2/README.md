@@ -30,6 +30,9 @@ The battery was originally intended to be on the middle platform in order to avo
 
 ### Printed Parts
 
+*CAD source files for the chassis were lost in a hardware issue and have not been recreated. Printed parts remain in use and physical parameters were measured from the build assembly*
+
+
 **Bottom Platform.** Printed as a single piece with the motor mounting brackets included in the geometry rather than as separate bonded parts. The brackets locate the motors at the front of the body only.
 
 **Motor rear supports.** The integral brackets hold the motors at one end, leaving the rear of each motor unsupported. Because the motors are back-heavy, this caused the rear ends to slack under their own weight. A support was printed for each motor with a semicircular cutout matching the motor barrel radius, bonded to both the platform and the motor body. This constrains the rear of the motor and eliminates the issue.
