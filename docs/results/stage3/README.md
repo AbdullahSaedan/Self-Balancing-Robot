@@ -51,7 +51,15 @@ parameters:
 
 Only the velocity gain changes, and it changes by exactly 26.000. This is the expected result rather than a coincidence since F = u - b·ẋ.
 
-Speed scheduling on the velocity gain:
+### Firmware gains
+
+```cpp
+const float K[4] = { 13.703f, 0.879f, 0.405f, 16.000f };
+```
+
+K[0], K[1] and K[2] are used exactly as derived. K[3] was reduced experimentally from the derived 27.079 down to 16, which took steady-state angle from ±12° to ±1° and position wander from roughly 1 m to ±0.5 cm.
+
+### Speed Scheduling
 
 | Constant | Value |
 |---|---|
@@ -60,13 +68,8 @@ Speed scheduling on the velocity gain:
 
 K[3] blends from 16 at standstill to 26 above V_BLEND. Recovery from a push is a force balance where the angle term has to beat the residual motor drag with the wheels already moving. One fixed gain cannot be both calm at standstill and authoritative during a recovery.
 
-### Firmware gains
+V_BLEND = 0.15 m/s was found by experiment. Raising it to 0.5 causes loss of balance, while disabling the schedule entirely does not, so the constant is not a simple threshold that can be relaxed. An intermediate blend appears to be worse than either endpoint, which suggests the issue is the rate at which k3 tracks velocity rather than the threshold itself. This has not been investigated further.
 
-```cpp
-const float K[4] = { 13.703f, 0.879f, 0.405f, 16.000f };
-```
-
-K[0], K[1] and K[2] are used exactly as derived. K[3] was reduced experimentally from the derived 27.079 down to 16, which took steady-state angle from ±12° to ±1° and position wander from roughly 1 m to ±0.5 cm.
 
 
 ### Sign inversion
@@ -109,7 +112,7 @@ The buffer holds 10 seconds at 25 Hz, recording e and u as int16. Every figure b
 
 <img src="balance_run.png" width="600">
 
-The robot balances indefinitely, holding within ±1.2 degrees of the balance point. The residual motion is a limit cycle of roughly 0.78 s period, not noise. It neither grows nor decays across the full run, which a linear system cannot do, so a nonlinearity is sustaining it.
+The robot balances indefinitely, holding within ±2.0 degrees of the balance point with an RMS of 0.94 degrees. Control effort peaks at 1.74 N against 11.1 N available, under 16% of actuator authority.
 
 Control effort stays within ±1.2 N against 11.1 N available, under 11% of actuator authority. Force is not the constraint.
 
@@ -140,3 +143,5 @@ The robot balances indefinitely and recovers from disturbances up to roughly 9 d
 Three of four gains are used exactly as derived from the model. The velocity gain is the exception, reduced from 27 to 16 for steady-state behaviour and scheduled back up above 0.15 m/s for recovery.
 
 Stage 4 compares logged runs against the simulation directly, using release tests from a known initial angle so both sides start from the same condition.
+
+[View Stage 4 results](../stage4/README.md)

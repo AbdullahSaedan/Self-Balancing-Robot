@@ -65,7 +65,7 @@ const float GYRO_LPF = 0.15f;
 // K3 reaches K3_FAST once wheel speed hits V_BLEND. Delivered force falls
 // with speed (back-EMF), so more velocity gain is needed when moving.
 const float K3_FAST = 26.0f;
-const float V_BLEND = 0.5f;
+const float V_BLEND = 0.15f;
 
 // ---- TIMING AND FILTERS -----------------------------------------------
 // ALPHA is the complementary filter split: gyro integration dominates short
@@ -80,7 +80,7 @@ const float VEL_LPF = 0.15f;
 // ---- ARM / DISARM -----------------------------------------------------
 
 const float TILT_CUTOFF = 0.52f;
-const float REARM_TILT  = 0.05f;
+const float REARM_TILT  = 0.075f;
 const unsigned long REARM_MS = 300;
 
 
@@ -196,22 +196,23 @@ void printConfig(float bias) {
 
 // Enable/disable: the testModeBegin() call in setup().
 // Keep the battery connected when plugging in USB, or the data is lost.
-// TEST_SAMPLES x 4 bytes comes out of the same 2 KB as the stack. Raising
+// TEST_SAMPLES x 6 bytes comes out of the same 2 KB as the stack. Raising
 // either define means bumping TEST_MAGIC, or a stale buffer of the old
 // geometry gets read as valid.
 // Trace looks like noise -> raise TEST_HZ, cut TEST_SECONDS to match.
 
-#define TEST_SECONDS 10
+#define TEST_SECONDS 6
 #define TEST_HZ      25
 #define TEST_SAMPLES (TEST_SECONDS * TEST_HZ)
 #define TEST_DIV     (LOOP_HZ / TEST_HZ)
-#define TEST_MAGIC   0xB101u
+#define TEST_MAGIC   0xB102u
 
 
 #define SC_ANG  10000.0f   // rad    -> +/-3.27 rad
+#define SC_RATE  1000.0f   // rad/s  -> +/-32.7 rad/s
 #define SC_U     1000.0f   // N      -> +/-32.7 N
 
-int16_t  test_buf[TEST_SAMPLES][2] __attribute__((section(".noinit")));
+int16_t  test_buf[TEST_SAMPLES][3] __attribute__((section(".noinit")));
 uint16_t test_count __attribute__((section(".noinit")));
 uint16_t test_magic __attribute__((section(".noinit")));
 float    test_bias  __attribute__((section(".noinit")));
@@ -236,12 +237,13 @@ void testModeDump() {
   Serial.print(test_count); Serial.print(F(" samples @ "));
   Serial.print(TEST_HZ);    Serial.println(F(" Hz ----"));
   printConfig(test_bias);
-  Serial.println(F("# t_ms,e,u"));
+  Serial.println(F("# t_ms,e,theta_dot,u"));
 
   for (uint16_t i = 0; i < test_count; i++) {
     Serial.print((unsigned long)i * (1000UL / TEST_HZ)); Serial.print(',');
-    Serial.print(test_buf[i][0] / SC_ANG, 4);            Serial.print(',');
-    Serial.println(test_buf[i][1] / SC_U,  3);
+    Serial.print(test_buf[i][0] / SC_ANG,  4);           Serial.print(',');
+    Serial.print(test_buf[i][1] / SC_RATE, 3);           Serial.print(',');
+    Serial.println(test_buf[i][2] / SC_U,  3);
   }
   Serial.println(F("# ---- END ----"));
 
@@ -284,8 +286,9 @@ void testModeUpdate(float e, float u) {
   tick = 0;
   if (test_count >= TEST_SAMPLES) return;
 
-  test_buf[test_count][0] = testPack(e, SC_ANG);
-  test_buf[test_count][1] = testPack(u, SC_U);
+  test_buf[test_count][0] = testPack(e,           SC_ANG);
+  test_buf[test_count][1] = testPack(theta_dot_f, SC_RATE);
+  test_buf[test_count][2] = testPack(u,           SC_U);
   test_count++;
 }
 
@@ -372,7 +375,7 @@ void setup() {
 
   // ---- TESTING MODE TOGGLE --------------------------------------------
   
-  testModeBegin(); // Uncomment for one instrumented run; comment out for normal operation. <------------------------
+  //testModeBegin(); // Uncomment for one instrumented run; comment out for normal operation. <------------------------
 }
 
 // ---- CONTROL LOOP -----------------------------------------------------
