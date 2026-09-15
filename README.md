@@ -1,5 +1,7 @@
 # Self-Balancing Robot - Control Systems Project
 
+https://github.com/user-attachments/assets/34fe275d-3d88-4c13-a9c5-a07f3246fb1b
+
 A two-wheel self-balancing robot built from scratch — from first-principles dynamic
 modelling and simulation to embedded control on hardware.
 
