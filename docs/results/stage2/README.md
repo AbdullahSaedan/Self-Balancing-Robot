@@ -108,7 +108,10 @@ The IMU is mounted on the top platform, physically separated from the driver on 
 
 | Parameter | Symbol | Assumed (Stage 1) | Measured | Method |
 |---|---|---|---|---|
-| Body mass | m | 0.50 kg | 0.497kg | Scale |
-| Wheel/base mass | M | 0.30 kg | 0.056kg | Scale |
-| Pivot to COM height | L | 0.10 m | 0.03 | moment balance |
-| Body inertia about COM | I | 0.006 kgm² | 0.00145 kgm² | Compound pendulum, 20 swings |
+| Body mass | m | 0.50 kg | 0.565kg | Scale |
+| Wheel mass | M | 0.30 kg | 0.056kg | Scale |
+| Pivot to COM height | L | 0.10 m | 0.043 | moment balance |
+| Body inertia about COM | I | 0.006 kgm² | 0.00082 kgm² | Compound pendulum, 20 swings |
+
+
+[View Stage 3 results](../stage3/README.md)

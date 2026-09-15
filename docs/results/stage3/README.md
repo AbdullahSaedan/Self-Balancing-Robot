@@ -143,5 +143,3 @@ The robot balances indefinitely and recovers from disturbances up to roughly 9 d
 Three of four gains are used exactly as derived from the model. The velocity gain is the exception, reduced from 27 to 16 for steady-state behaviour and scheduled back up above 0.15 m/s for recovery.
 
 Stage 4 compares logged runs against the simulation directly, using release tests from a known initial angle so both sides start from the same condition.
-
-[View Stage 4 results](../stage4/README.md)

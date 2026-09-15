@@ -8,8 +8,7 @@ modelling and simulation to embedded control on hardware.
 -  **Stage 0** - Simulation of a single body pendulum: PID control, gain tuning, documented results
 - **Stage 1** - Full coupled cart-pole simulation: explicit equations of motion, cascaded PID, pole placement analysis, state feedback control
 -  **Stage 2** - Hardware design: Component selection, mechanical design, CAD, measurment of physical parameters
--  **Stage 3** - Embedded implementation: Microcontroller, IMU integration, sensor filtering, control on hardware
--  **Stage 4** - Testing and validation: Comparing hardware performance against simulation, tuning on real system
+-  **Stage 3** - Embedded implementation: Microcontroller, IMU integration, sensor filtering, control on hardware, tuning
 
 ## Skills Demonstrated
 
@@ -20,6 +19,8 @@ modelling and simulation to embedded control on hardware.
 - Discrete-time simulation in Python
 - Gain tuning and performance analysis
 - Engineering documentation
+- Complementary Filtering
+- Gain scheduling
 
 ## Repository Structure
 
@@ -31,6 +32,7 @@ embedded/     Arduino firmware - bringup and control
 docs/         Derivations and results for every stage
 tools/        Log parsing and plotting scripts
 logs/         Raw captured runs from the robot
+tools/        Log parsing and plotting scripts
 ```
 
 ## Results - Stage 0
@@ -66,16 +68,37 @@ logs/         Raw captured runs from the robot
 
 | Parameter | Symbol | Assumed (Stage 1) | Measured | Method |
 |---|---|---|---|---|
-| Body mass | m | 0.50 kg | 0.497kg | Scale |
+| Body mass | m | 0.50 kg | 0.565kg | Scale |
 | Wheel/base mass | M | 0.30 kg | 0.056kg | Scale |
-| Pivot to COM height | L | 0.10 m | 0.03 | moment balance |
-| Body inertia about COM | I | 0.006 kgm² | 0.00145 kgm² | Compound pendulum, 20 swings |
+| Pivot to COM height | L | 0.10 m | 0.043 | moment balance |
+| Body inertia about COM | I | 0.006 kgm² | 0.00082 kgm² | Compound pendulum, 20 swings |
 
 
-Stage 1 gains were recomputed from the measured values before hardware
-implementation: see [Stage 3 results](docs/results/stage3/README.md).
+Stage 1 gains were recomputed from the measured values before hardware, this was implemended in stage 3.
 
 [View full Stage 2 results](docs/results/stage2/README.md)
+
+## Results - Stage 3
+
+*Steady-state balancing - holds within ±2.0°, using under 16% of actuator authority*
+
+<img src="docs/results/stage3/balance_run.png" width="600"><br>
+
+*Disturbance rejection - scheduled velocity gain recovers from a 9.4° push, fixed gain falls from 2.2°*
+
+<img src="docs/results/stage3/push_test.png" width="600">
+
+### Actuator Characterisation
+
+U_MAX was measured at 11.1 ± 0.13 N by step response identification, against a
+datasheet guess of 4.0 N. The same data revealed back-EMF drag of 26 N·s/m
+missing from the Stage 1 plant, which was added before the gains were recomputed.
+
+Three of the four gains are used exactly as derived from pole placement. The
+velocity gain is the exception, reduced from 27 to 16 and scheduled back up
+above 0.15 m/s.
+
+[View full Stage 3 results](docs/results/stage3/README.md)
 
 
 ## Setup

@@ -31,7 +31,3 @@ plt.tight_layout()
 plt.savefig("docs/results/stage3/push_test.png", dpi=150)
 plt.show()
 
-print(f"angle RMS  {np.sqrt(np.mean(e_deg**2)):.3f} deg")
-print(f"angle peak {np.abs(e_deg).max():.3f} deg")
-print(f"u RMS      {np.sqrt(np.mean(u**2)):.3f} N")
-print(f"u peak     {np.abs(u).max():.3f} N  ({np.abs(u).max()/11.1*100:.1f}% of U_MAX)")

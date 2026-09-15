@@ -24,7 +24,7 @@ The cascaded PID fails to regulate cart position. The angle settles at a constan
 
 ## Pole Placement Analysis
 
-Before implementing state feedback, the open loop poles of the system were computed using the linearised A matrix from `plant.py`:
+Before implementing state feedback, the open loop poles of the system were computed using the linearised A matrix from plant.py:
 
 Open loop poles: [ 0, 0, 6.22, -7.89]
 
@@ -49,3 +49,5 @@ All four states are used simultaneously to compute the control force, accounting
 <img src="state_feedback_pole_placement.png" width="600">
 
 Using state feedback control stabilised the system. The angle starts at about 4.5 degrees, undershoots to -2.6 degrees, and converges to the setpoint within approximately 2.5 seconds. Peak control force is 5 N at the start of the correction, decaying to zero as the system settles. The cart moves a maximum of 0.08m from the origin before returning to it - a significant improvement over the cascaded PID, which failed to regulate position at all.
+
+[View Stage 2 results](../stage2/README.md)

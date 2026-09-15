@@ -45,5 +45,3 @@ Where:
 - δ = coupled inertia denominator
 - I = moment of inertia (kg.m²)
 - All other variables as defined above
-
-Note: the full derivation separates cart force F and pendulum torque u as different inputs. In this implementation both are combined into a single control input u, as the motor drives both cart motion and pendulum correction through the same signal.
