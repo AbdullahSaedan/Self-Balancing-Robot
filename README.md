@@ -29,6 +29,8 @@ simulation/   Plant model, controllers, and simulation entry points
 hardware/     Chasis Design, CAD and build documentation
 embedded/     Arduino firmware - bringup and control
 docs/         Derivations and results for every stage
+tools/        Log parsing and plotting scripts
+logs/         Raw captured runs from the robot
 ```
 
 ## Results - Stage 0

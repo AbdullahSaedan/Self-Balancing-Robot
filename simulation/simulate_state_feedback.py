@@ -24,7 +24,7 @@ x_dot_0     = 0.0
 # Computed analytically using linearised_matrices()
 # Desired poles: [-3, -4, -5, -6]
 # ─────────────────────────────────────────
-K = np.array([57.32868416, 8.14983868, -11.00917431, -10.83279559])
+K = np.array([12.34864249, 1.22664006, -2.03520524, -1.94040213])
 
 # ─────────────────────────────────────────
 # Simulation loop
@@ -45,7 +45,7 @@ for ti in t_eval:
     # State feedback control law
     state = np.array([theta, theta_dot, x, x_dot])
     u = float(-(K @ state))
-    u = np.clip(u, -20.0, 20.0)
+    u = np.clip(u, -4.0, 4.0)
 
     # Integrate plant one timestep forward
     sol = solve_ivp(

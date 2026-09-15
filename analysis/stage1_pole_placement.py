@@ -14,7 +14,7 @@ print("Open loop poles:")
 print(eigenvalues)
 
 # Place closed loop poles where we want them
-desired_poles = np.array([-3.0, -4.0, -5.0, -6.0])
+desired_poles = np.array([-15, -18, -0.7, -0.9])
 K = place_poles(A, B, desired_poles).gain_matrix
 print("\nGain matrix K:")
 print(K)

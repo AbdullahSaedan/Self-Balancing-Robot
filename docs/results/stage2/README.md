@@ -12,13 +12,14 @@
 
 | Component | Qty | Key spec | Why chosen |
 |---|---|---|---|
+|**LM2596** |**1** |**Not in final build - see why under 'Electronics''**, ||
 |Arduino Nano |1 |ATmega328P chip, 16MHz, 5V |Small footprint, widley available |
 |MPU6050 IMU |1 |6-axis (3axis accelerometer, 3axis gyroscope), I2C |Measures both acceleration and rotation rate|
 |TB6612FNG Driver |1 |Dual-channel, 1.2A continuous - 3.2A peak, 2.5-13.5V motor supply |Lower voltage drop than common alternatives (Important with 7.2v battery)|
 |JGA25-370 |2 |12V, 170RPM - no load, integrated encoder, 1.2-1.8 stall |Integrated quadrature encoders provide the wheel position and velocity states required for full state feedback |
 |Wheels - 65mm Diameter |2 |Rubber, 65mm diameter |Rubber for traction|
 |2S LiPo |1 |7.4V, 1600mAh |Voltage within drivers range |
-|LM2596 |1 |Adjustable buck converter, 3-40V input, 1.25-35V output, 2A max |Provides a regulated 5V supply seperate from the motors (this allows motors to draw all ~7.4V) |
+
 
 
 ## Mechanical Design
@@ -50,14 +51,15 @@ Motors are fastened into the integral brackets with screws.
 
 ## Electronics
 ### Power Architecture
-<!-- 2S LiPo, buck to 5V logic, separate rails, why -->
-The 2S LiPo supplies two separate rails. Motor power is taken directly from the battery to the TB6612FNG's VM input. Battery also feeds the LM2596 buck converter regulated to 5V supplying the Arduino Nano, the MPU6050, and the driver's logic input, allowing the one battery to fulfil 2 voltage requirments.
+An LM2596 buck converter originally supplied the 5V rail. It was removed. Taking VCC from the Nano's own 5V rail means the driver's logic supply and its logic signals always come from the same source; with a separate converter there is a state in which battery is disconnecte and USB is connected, where the Nano drives the driver's inputs while its VCC sits at 0V. Two motor drivers were lost before this was identified.
+
+The 2S LiPo supplies two separate rails. Motor power is taken directly from thebattery to the TB6612FNG's VM input. The battery also feeds the Arduino Nano's VIN, whose onboard regulator produces the 5V rail supplying the MPU6050, the encoders, and the driver's logic input (VCC) — allowing one battery to fulfil both voltage requirements.
 
 The rails are also separated because, motors need rapidly switching currents which causes noise. Sharing a supply between the motors and the sensor electronics would couple that switching noise into the IMU readings, which the control loop depends on.
 
 All subsytems share a common ground. This is because the driver interprets the Nano logic reletive to its own ground reference, so in order to keep the logic consistent they must have the same reference point.
 
-The IMU is mounted on the top platform, physically separated from the driver and buck converter on the middle platform. The buck converter switches at high frequency and is therefore a noise source, so distance between it and the sensor is a design choice.
+The IMU is mounted on the top platform, physically separated from the driver on the middle platform. The driver is a noise source, so distance between it and the sensor is a design choice.
 
 ### Wiring
 #### Arduino Nano
