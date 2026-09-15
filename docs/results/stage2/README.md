@@ -4,9 +4,9 @@
 
 *Assembled robot — three-quarter, top and side views*
 
-<img src="Three-quarter-View.jpeg" height="250">
-<img src="Top-View.jpeg" height="250">
-<img src="Side-View.jpeg" height="250">
+<img src="3quarter_view.jpeg" height="250">
+<img src="top_view.jpeg" height="250">
+<img src="side_view.jpeg" height="250">
 
 ## Component Selection
 

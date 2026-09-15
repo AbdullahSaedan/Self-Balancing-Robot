@@ -61,8 +61,7 @@ tools/        Log parsing and plotting scripts
 
 ## Results - Stage 2
 
-<img src="docs/results/stage2/cad_render.png" width="400">
-<img src="docs/results/stage2/Three-quarter-View.jpeg" height="300">
+<img src="docs/results/stage2/3quarter_view.jpeg" height="300">
 
 ### Measured Physical Parameters
 
